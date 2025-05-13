@@ -45,6 +45,11 @@ export const manageCart = (state, action) => {
         }
         return state;
       }
+      
+      case "INNIT": {
+        return action.payload
+
+      }
   
       case "CLEAR_CART": {
         return initialState;
