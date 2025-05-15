@@ -8,11 +8,6 @@ import React, { createContext, useEffect, useReducer } from "react";
 export const CartContext = createContext();
 
 
-const loadState = () => {
- 
-  return initialState
-}
-
 export const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer(manageCart, initialState);
 
@@ -21,38 +16,26 @@ export const CartProvider = ({ children }) => {
   };
 
   useEffect(()=> {
-
     const storedcart = window.localStorage.getItem("cartstate")
     if (storedcart){
     const parsedData =JSON.parse(storedcart)
 
-handleCartclear("INNIT",parsedData)
+  handleCart("INNIT",parsedData)
     }
-    
-
-
   }, [] )
 
 
 
-  useEffect(()=> {
+    useEffect(()=> {
+    window.localStorage.setItem("cartstate", JSON.stringify(state))
+    },[state])
 
 
-  window.localStorage.setItem("cartstate", JSON.stringify(state))
-
-
-  },[state])
-
-
-
-  return <CartContext.Provider
-  value={{
-    state,
-    handleCart
-  }}
-  
-  >{children}</CartContext.Provider>;
-};
-
+    return <CartContext.Provider
+        value={{
+          state,
+          handleCart
+        }} >{children}</CartContext.Provider>;
+    };
 
 export default CartProvider;
